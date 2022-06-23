@@ -2,7 +2,14 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-contacts = []
+contacts = [
+    {
+        'id':1,
+        'Name':"Ishan",
+        'Contact':123456789,
+        'Done':True
+    }
+]
 
 @app.route("/add-data", methods = ["POST"])
 
@@ -15,7 +22,7 @@ def addData():
         }, 400)
 
     contact={
-        'id' : contacts[-1]['id'] + 1,
+        'id' : "",
         'Name': request.json['Name'],
         'Contact': request.json.get('Contact', ""),
         'Done':False
@@ -27,6 +34,13 @@ def addData():
         "status":"success",
         "message": "Contact added succesfully!"
     })
+
+@app.route("/get-data")
+def getContacts():
+    return jsonify({
+        "data": contacts
+    })
+
 
 if __name__ == "__main__":
     app.run(debug = True)
